@@ -1,6 +1,6 @@
 import admin from '../utils/firebase.js';
 
-const verifyToken = async () => {
+const verifyToken = async (req, res, next) => {
     const token = req.headers.authorization?.split("Bearer ")[1];
 
     if (!token) {
@@ -16,4 +16,4 @@ const verifyToken = async () => {
     }
 }
 
-module.exports = verifyToken;
+export default verifyToken;
