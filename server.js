@@ -1,11 +1,17 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
+import { User } from './models/user.js';
 import verifyToken from './middleware/authMiddleware.js';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
+
+app.use(express.json());
 
 const PORT = process.env.PORT;
 
@@ -15,7 +21,7 @@ app.get('/', (req, res) => {
     res.send(`Server is running on http://localhost:${PORT}`);
 })
 
-app.post('/api/signup', verifyToken, async (req, res) => {
+app.post('/api/auth/signup', verifyToken, async (req, res) => {
     try {
         const { uid, firstName, lastName, email, role } = req.body;
 
@@ -46,7 +52,7 @@ app.post('/api/signup', verifyToken, async (req, res) => {
             error: error.message
         });
     }
-})
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
