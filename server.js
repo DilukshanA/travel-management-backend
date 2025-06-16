@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
+import verifyToken from './middleware/authMiddleware.js';
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ app.get('/', (req, res) => {
     res.send(`Server is running on http://localhost:${PORT}`);
 })
 
-app.post('/api/signup', async (req, res) => {
+app.post('/api/signup', verifyToken, async (req, res) => {
     try {
         const { uid, firstName, lastName, email, role } = req.body;
 
