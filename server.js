@@ -36,7 +36,7 @@ app.post('/api/auth/signup', verifyToken, async (req, res) => {
             })
             await newUser.save();
             return res.status(201).json({
-                message: "User created successfully",
+                message: "User registered successfully!",
                 role: newUser.role,
             })
         } else {
