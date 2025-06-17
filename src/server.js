@@ -1,27 +1,21 @@
-import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
-import cors from 'cors';
-import authRouter from './api/routes/authRoutes.js';
+import app from './app.js';
 
 dotenv.config();
 
-const app = express();
-
-app.use(cors());
-
-app.use(express.json());
-
 const PORT = process.env.PORT;
 
-await connectDB();
+const startServer = async () => {
+    try {
+        await connectDB();
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    } catch (error) {
+        console.error("Failed to start server:", error);
+        process.exit(1);
+    }
+}
 
-app.get('/', (req, res) => {
-    res.send(`Server is running on http://localhost:${PORT}`);
-})
-
-app.use('/api/auth', authRouter);
-
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-})
+startServer();
