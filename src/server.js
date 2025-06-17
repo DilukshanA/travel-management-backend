@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
 import { User } from './models/user.js';
-import verifyToken from './middleware/authMiddleware.js';
+import verifyToken from './api/middleware/authMiddleware.js';
 import cors from 'cors';
 
 dotenv.config();
