@@ -1,0 +1,123 @@
+import nodemailer from 'nodemailer';
+import Mailgen from 'mailgen';
+
+{/* send mail from testing account */}
+export const sendTestMail = async (req, res) => {
+
+    try {
+        const testAccount = await nodemailer.createTestAccount();
+
+        // Create a test account or replace with real credentials.
+        const transporter = nodemailer.createTransport({
+            host: "smtp.ethereal.email",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: testAccount.user,
+                pass: testAccount.pass,
+            },
+        });
+
+        await transporter.verify(); // confirm transporter works
+
+        const message = {
+            from: '"Maddison Foo Koch" <foo@example.com>',
+            to: "bar@example.com, baz@example.com",
+            subject: "This is a test email",
+            text: "Test email", // plain‑text body
+            html: "<b>Test email</b>", // HTML body
+        }
+
+        const info = await transporter.sendMail(message);
+
+        return res.status(201).json({
+            message: "Your OTP has been sent successfully!",
+            info: info.messageId,
+            previewURL: nodemailer.getTestMessageUrl(info)
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Failed to send OTP",
+            error: error.message,
+        })
+    }
+}
+
+{/* send mail with OTP for signup */}
+export const sendOTPMail = async (req, res) => {
+
+    const { userMail } = req.body;
+    const { otp } = req.body;
+    const { name } = req.body;
+
+    const myEmail = process.env.EMAIL_USER;
+    const myPassword = process.env.EMAIL_PASS;
+
+    const config = {
+        service : "gmail",
+        auth : {
+            user: myEmail,
+            pass: myPassword
+        }
+    }
+
+    try {
+        // Create an account with real credentials.
+        const transporter = nodemailer.createTransport(config);
+
+        await transporter.verify(); // confirm transporter works
+
+        const mailGenerator = new Mailgen({
+            theme: "default",
+            product: {
+                name: "Autonix",
+                link: "https://autonix.com",
+            }
+        })
+
+        // Create the email content
+        const response = {
+            
+            body: {
+                name: name,
+                intro: 'You are receiving this email because we received a request to verify your email address.',
+                
+                action: {
+                instructions: 'Use the following OTP to complete your verification:',
+                button: {
+                    color: '#22BC66', // green color
+                    text: `OTP: ${otp}`, // will appear big and bold
+                    //link: 'https://yourdomain.com/verify' // or just '#'
+                }
+                },
+
+                outro: 'This OTP is valid for 10 minutes. If you did not request this, please ignore this email.'
+            }
+        }
+
+        // Generate the HTML content
+        const mail = mailGenerator.generate(response);
+
+        // Define the email message
+        const message = {
+            from: myEmail,
+            to: userMail,
+            subject: "Your OTP for Verification",
+            html: mail, // HTML body
+        }
+
+        const info = await transporter.sendMail(message);
+
+        return res.status(201).json({
+            message: "Your OTP has been sent successfully!",
+            info: info.messageId,
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Failed to send OTP",
+            error: error.message,
+        })
+    }
+}

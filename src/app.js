@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import authRouter from './api/routes/authRoutes.js';
+import sendMailRouter from './api/routes/sendMailRoutes.js';
 
 const app = express();
 
@@ -12,5 +13,6 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', authRouter);
+app.use('/api/sendMail', sendMailRouter);
 
 export default app;
