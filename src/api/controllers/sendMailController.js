@@ -47,7 +47,7 @@ export const sendTestMail = async (req, res) => {
 {/* send mail with OTP for signup */}
 export const sendOTPMail = async (req, res) => {
 
-    const { userMail } = req.body;
+    const { email } = req.body;
     const { otp } = req.body;
     const { name } = req.body;
 
@@ -102,7 +102,7 @@ export const sendOTPMail = async (req, res) => {
         // Define the email message
         const message = {
             from: myEmail,
-            to: userMail,
+            to: email,
             subject: "Your OTP for Verification",
             html: mail, // HTML body
         }
