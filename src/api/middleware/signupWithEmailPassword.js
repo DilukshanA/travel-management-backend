@@ -11,6 +11,7 @@ export const signupWithEmailPassword = async (req, res, next) => {
                 firstName,
                 lastName,
                 email,
+                verified,
                 role
             })
             await newUser.save();
@@ -25,7 +26,7 @@ export const signupWithEmailPassword = async (req, res, next) => {
             })
         }
         next();
-        
+
     } catch (error) {
         console.error("Error creating user:", error);
         return res.status(500).json({
