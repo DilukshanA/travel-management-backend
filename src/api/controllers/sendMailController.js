@@ -115,9 +115,6 @@ export const sendOTPMail = async (req, res) => {
         })
 
     } catch (error) {
-        return res.status(500).json({
-            message: "Failed to send OTP",
-            error: error.message,
-        })
+        return res.status(500)
     }
 }
