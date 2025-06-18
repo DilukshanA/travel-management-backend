@@ -1,8 +1,6 @@
-{/* This file not used currently because this code copy to middleware that signupWithEmailPassword.js*/}
-
 import { User } from '../../models/user.js';
 
-export const signupWithEmailPassword = async (req, res) => {
+export const signupWithEmailPassword = async (req, res, next) => {
     try {
         const { uid, firstName, lastName, email, role } = req.body;
 
@@ -16,16 +14,18 @@ export const signupWithEmailPassword = async (req, res) => {
                 role
             })
             await newUser.save();
-            return res.status(201).json({
+            res.status(201).json({
                 message: "User registered successfully!",
                 role: newUser.role,
             })
         } else {
-            return res.status(400).json({
+            res.status(400).json({
                 message: "User already exists",
                 role: checkUserExists.role,
             })
         }
+        next();
+        
     } catch (error) {
         console.error("Error creating user:", error);
         return res.status(500).json({
