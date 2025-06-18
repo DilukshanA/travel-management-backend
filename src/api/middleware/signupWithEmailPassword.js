@@ -11,7 +11,7 @@ export const signupWithEmailPassword = async (req, res, next) => {
                 firstName,
                 lastName,
                 email,
-                verified,
+                verified : false, // Default to false, will be updated after OTP verification
                 role
             })
             await newUser.save();
