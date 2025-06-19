@@ -29,7 +29,7 @@ const signupFirebaseAndMongoDb = async (req, res, next) => {
                 });
 
                 await newUser.save();
-                res.status(201).json({
+                res.status(200).json({
                     message: "User registered successfully!",
                     role: newUser.role,
                 })
