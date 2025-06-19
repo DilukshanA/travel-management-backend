@@ -9,7 +9,7 @@ const userVerifySignup = async (req, res) => {
         const record = await Otp.findOne( { email });
 
         if(!record) {
-            return res.status(400).json({
+            return res.status(404).json({
                 message: "OTP not found or Expires. Please request a new OTP."
             })
         } else if (record.otp !== otp) {
