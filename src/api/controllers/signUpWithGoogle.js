@@ -39,9 +39,9 @@ const signUpWithGoogle = async (req, res) => {
                 role: newUser.role
             })
         } else {
-            // if user exists, return the user role
+            // if user exists, sign in the user
             return res.status(201).json({
-                message: "User already exists",
+                message: "User sign in successfully!",
                 role: user.role
             })
         }
