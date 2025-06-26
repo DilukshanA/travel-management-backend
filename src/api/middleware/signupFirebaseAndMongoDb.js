@@ -2,6 +2,7 @@
 
 import admin from "../../config/firebase.js";
 import { User } from "../../models/user.js";
+import firebaseAuthErrorMap from "../../utils/firebaseAuthErrors.js";
 
 const signupFirebaseAndMongoDb = async (req, res, next) => {
     const { firstName, lastName, email, password, role } = req.body;
@@ -47,6 +48,17 @@ const signupFirebaseAndMongoDb = async (req, res, next) => {
         next();
     } catch (error) {
         console.error("Error creating user:", error);
+
+        if (typeof error.code === "string" && error.code.startsWith("auth/")) {
+            // Handle Firebase auth errors
+            const firebaseError = firebaseAuthErrorMap[error.code];
+            if (firebaseError ) {
+                return res.status(firebaseError.status).json({
+                    message: firebaseError.message
+                });
+            }
+        }
+        // Handle other errors
         return res.status(500).json({
             message: "Internal server error",
             error: error.message
