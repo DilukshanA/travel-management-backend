@@ -3,6 +3,7 @@
 import admin from "../../config/firebase.js";
 import { User } from "../../models/user.js";
 import firebaseAuthErrorMap from "../../utils/firebaseAuthErrors.js";
+import createSessionCookieWithCustomToken from "../controllers/SessionCookie/createSessionCookie.js";
 
 const signupFirebaseAndMongoDb = async (req, res, next) => {
     const { firstName, lastName, email, password, role } = req.body;
@@ -15,6 +16,14 @@ const signupFirebaseAndMongoDb = async (req, res, next) => {
                 email,
                 password
             })
+
+
+
+            const userUid = userRecord.uid;
+
+
+
+            
 
             // Check if user already exists in the database
             const checkUserExists = await User.findOne({ uid: userRecord.uid });
@@ -30,6 +39,17 @@ const signupFirebaseAndMongoDb = async (req, res, next) => {
                 });
 
                 await newUser.save();
+
+
+
+
+                console.log("User created in Firebase and MongoDB:", userUid);
+                await createSessionCookieWithCustomToken(userUid, res);
+
+
+
+
+
                 res.status(200).json({
                     message: "User registered successfully!",
                     role: newUser.role,

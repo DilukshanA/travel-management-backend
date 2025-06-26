@@ -20,6 +20,8 @@
   "homepage": "https://github.com/DilukshanA/travel-management-backend#readme",
   "description": "",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cookies": "^0.9.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
