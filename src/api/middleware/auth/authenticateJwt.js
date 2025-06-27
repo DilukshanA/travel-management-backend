@@ -22,3 +22,5 @@ const authenticateJwt = (req, res, next) => {
         })
     }
 }
+
+export default authenticateJwt;
