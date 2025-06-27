@@ -3,6 +3,7 @@ import cors from 'cors';
 import authRouter from './api/routes/authRoutes.js';
 import sendMailRouter from './api/routes/sendMailRoutes.js';
 import cookieParser from 'cookie-parser';
+import userRouter from './api/routes/userRoutes.js';
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/sendMail', sendMailRouter);
+app.use('/api/', userRouter);
 
 export default app;
