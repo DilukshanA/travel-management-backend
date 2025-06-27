@@ -1,7 +1,7 @@
 import { Otp } from "../../models/otp.js";
 import { User } from "../../models/user.js";
 
-const userVerifySignup = async (req, res) => {
+const userOtpVerifySignup = async (req, res) => {
 
     const { email, otp } = req.body;
 
@@ -39,4 +39,4 @@ const userVerifySignup = async (req, res) => {
     }
 }
 
-export default userVerifySignup;
+export default userOtpVerifySignup;
