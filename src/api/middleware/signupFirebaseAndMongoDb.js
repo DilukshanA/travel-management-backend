@@ -3,7 +3,7 @@
 import admin from "../../config/firebase.js";
 import { User } from "../../models/user.js";
 import firebaseAuthErrorMap from "../../utils/firebaseAuthErrors.js";
-import createSessionCookieWithCustomToken from "../controllers/SessionCookie/createSessionCookie.js";
+import { generateJwtToken } from "../../utils/jwt.js";
 
 const signupFirebaseAndMongoDb = async (req, res, next) => {
     const { firstName, lastName, email, password, role } = req.body;
@@ -17,13 +17,7 @@ const signupFirebaseAndMongoDb = async (req, res, next) => {
                 password
             })
 
-
-
             const userUid = userRecord.uid;
-
-
-
-            
 
             // Check if user already exists in the database
             const checkUserExists = await User.findOne({ uid: userRecord.uid });
@@ -40,22 +34,28 @@ const signupFirebaseAndMongoDb = async (req, res, next) => {
 
                 await newUser.save();
 
-
-
-
                 console.log("User created in Firebase and MongoDB:", userUid);
-                await createSessionCookieWithCustomToken(userUid, res);
 
+                // create JWT token
+                const token = generateJwtToken({
+                    uid: userUid,
+                    email,
+                })
 
-
-
+                // set cookie with JWT token
+                res.cookie("auth_token", token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",
+                    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+                    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+                })
 
                 res.status(200).json({
                     message: "User registered successfully!",
                     role: newUser.role,
                 })
             } else {
-                res.status(400).json({
+                return res.status(400).json({
                     message: "User already exists",
                     role: checkUserExists.role,
                 });
