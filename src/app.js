@@ -9,7 +9,10 @@ const app = express();
 
 const PORT = process.env.PORT;
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true, // Allow cookies to be sent with requests
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -19,6 +22,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/sendMail', sendMailRouter);
-app.use('/api/', userRouter);
+app.use('/api', userRouter);
 
 export default app;
