@@ -13,6 +13,8 @@ const otpGenerateAndStoreDb = async (req, res, next) => {
         });
     }
 
+    console.log("email and otp", email, otp);
+
     try {
         // Check if OTP already exists for an email
         const existingEmailForOtp = await Otp.findOne({ email: email});

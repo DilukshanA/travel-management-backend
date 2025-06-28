@@ -28,7 +28,8 @@ const userOtpVerifySignup = async (req, res) => {
             await Otp.findOneAndDelete( { email });
 
             return res.status(200).json({
-                message: "OTP verified successfully. User is now verified."
+                message: "OTP verified successfully.",
+                email: email
             });
         }
     } catch (error) {
