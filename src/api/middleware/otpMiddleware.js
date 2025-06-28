@@ -2,7 +2,7 @@ import { Otp } from "../../models/otp.js";
 import generateOTP from "../../utils/otp.js";
 
 // this will call generteOtp and store the otp in the database and work as middleware
-const otpMiddleware = async (req, res, next) => {
+const otpGenerateAndStoreDb = async (req, res, next) => {
 
     const { email } = req.body;
     const otp = generateOTP();
@@ -40,4 +40,4 @@ const otpMiddleware = async (req, res, next) => {
     }
 }
 
-export default otpMiddleware;
+export default otpGenerateAndStoreDb;

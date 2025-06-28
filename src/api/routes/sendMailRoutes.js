@@ -1,6 +1,6 @@
 import express from 'express';
 import { sendOTPMail, sendTestMail } from '../controllers/sendMailController.js';
-import otpMiddleware from '../middleware/handleOtp.js';
+import otpMiddleware from '../middleware/otpMiddleware.js';
 
 const sendMailRouter = express.Router();
 
