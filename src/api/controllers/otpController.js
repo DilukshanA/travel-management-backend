@@ -39,4 +39,4 @@ const userOtpVerifySignup = async (req, res) => {
     }
 }
 
-export default userOtpVerifySignup;
+export { userOtpVerifySignup };

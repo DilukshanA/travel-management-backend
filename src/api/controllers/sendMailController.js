@@ -54,6 +54,12 @@ export const sendOTPMail = async (req, res) => {
     const myEmail = process.env.EMAIL_USER;
     const myPassword = process.env.EMAIL_PASS;
 
+    if(!otp || !email) {
+        return res.status(400).json({
+            message: "Email and OTP are required to send the email."
+        });
+    }
+
     const config = {
         service : "gmail",
         auth : {
