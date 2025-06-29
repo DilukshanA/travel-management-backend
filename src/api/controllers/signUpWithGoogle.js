@@ -52,14 +52,15 @@ const signUpWithGoogle = async (req, res) => {
 
             return res.status(200).json({
                 message: "User registered successfully!",
-                role: newUser.role
+                role: newUser.role,
+                isNewUser: true // for new user frontend navigation
             })
         } else {
             // if user exists, sign in the user
             // create JWT token
             const token = generateJwtToken({
-                uid: newUser.uid,
-                email: newUser.email,
+                uid: user.uid,
+                email: user.email,
             })
 
             // set cookie with JWT token
@@ -71,7 +72,8 @@ const signUpWithGoogle = async (req, res) => {
             })
             return res.status(201).json({
                 message: "User sign in successfully!",
-                role: user.role
+                role: user.role,
+                isNewUser: false // for new user frontend navigation
             })
         }
     } catch (error) {
