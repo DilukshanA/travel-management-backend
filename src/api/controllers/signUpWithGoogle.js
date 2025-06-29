@@ -31,7 +31,7 @@ const signUpWithGoogle = async (req, res) => {
                 firstName: name?.split(" ")[0] || "",
                 lastName: name?.split(" ")[1] || "",
                 verified: true, // Google sign-in users are considered verified
-                role: "user" // default role, can be changed later
+                role: "Passenger" // default role, can be changed later
             })
             await newUser.save();
             return res.status(200).json({
