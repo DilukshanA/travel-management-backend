@@ -34,3 +34,8 @@ export const signupWithEmailPassword = async (req, res) => {
         });
     }
 }
+
+// sign in with email and password
+export const loginWithEmailPassword = async (req, res) => {
+    const authHeader = req.headers.authorization;
+}
