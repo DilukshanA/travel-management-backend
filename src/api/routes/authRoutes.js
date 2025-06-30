@@ -11,6 +11,7 @@ import authenticateJwt from '../middleware/auth/authenticateJwt.js';
 import { protectedTest } from '../controllers/test/protected.js';
 import checkUserAlreadyVerified from '../middleware/userVerfyMiddleware.js';
 import verifyFirebaseIdToken from '../middleware/TokenVerify.js';
+import { loginWithEmailPassword } from '../controllers/authController.js';
 
 const authRouter = express.Router();
 
@@ -19,7 +20,7 @@ authRouter.post('/signup', signupFirebaseAndMongoDb, otpGenerateAndStoreDb, send
 authRouter.post('/signup-otp-verify', checkUserAlreadyVerified, userOtpVerifySignup);
 authRouter.post('/signup-resend-otp', checkUserAlreadyVerified, otpGenerateAndStoreDb, sendOTPMail);
 authRouter.post('/signup-with-google', signUpWithGoogle);
-authRouter.post('/login', verifyFirebaseIdToken)
+authRouter.post('/login', verifyFirebaseIdToken, loginWithEmailPassword);
 // test route to check JWT authentication
 authRouter.get('/test/protected', authenticateJwt, protectedTest);
 
