@@ -34,9 +34,31 @@ export const loginWithEmailPassword = async (req, res) => {
         return res.status(200).json({
             message: "User logged in successfully!",
             role: user.role,
+            user,
         })
     } catch (error) {
         console.error("Error logging in user:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
+
+// sign out user
+export const logoutUser = async (req, res) => {
+    try {
+        // clear cookie
+        res.clearCookie("auth_token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+        })
+        return res.status(200).json({
+            message: "User logged out successfully!"
+        })
+    } catch (error) {
+        console.error("Error logging out user:", error);
         return res.status(500).json({
             message: "Internal server error",
             error: error.message
