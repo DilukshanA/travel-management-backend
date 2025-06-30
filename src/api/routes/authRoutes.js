@@ -3,23 +3,21 @@ import express from 'express';
 // import verifyToken from '../middleware/verifyAuthToken.js';
 // import { signupWithEmailPassword } from '../middleware/signupWithEmailPassword.js';
 import otpGenerateAndStoreDb from '../middleware/otpMiddleware.js';
-import { sendOTPMail } from '../controllers/sendMailController.js';
 import { userOtpVerifySignup } from '../controllers/otpController.js';
 import signupFirebaseAndMongoDb from '../middleware/signupFirebaseAndMongoDb.js';
-import signUpWithGoogle from '../controllers/signUpWithGoogle.js';
 import authenticateJwt from '../middleware/auth/authenticateJwt.js';
 import { protectedTest } from '../controllers/test/protected.js';
 import checkUserAlreadyVerified from '../middleware/userVerfyMiddleware.js';
 import verifyFirebaseIdToken from '../middleware/TokenVerify.js';
-import { loginWithEmailPassword, logoutUser } from '../controllers/authController.js';
+import { loginWithEmailPassword, logoutUser, sendOtpMailSignUpController, signInWithGoogle } from '../controllers/authController.js';
 
 const authRouter = express.Router();
 
 // authRouter.post('/signup', verifyToken, signupWithEmailPassword, otpMiddleware, sendOTPMail);
-authRouter.post('/signup', signupFirebaseAndMongoDb, otpGenerateAndStoreDb, sendOTPMail);
+authRouter.post('/signup', signupFirebaseAndMongoDb, otpGenerateAndStoreDb, sendOtpMailSignUpController);
 authRouter.post('/signup-otp-verify', checkUserAlreadyVerified, userOtpVerifySignup);
-authRouter.post('/signup-resend-otp', checkUserAlreadyVerified, otpGenerateAndStoreDb, sendOTPMail);
-authRouter.post('/signup-with-google', signUpWithGoogle);
+authRouter.post('/signup-resend-otp', checkUserAlreadyVerified, otpGenerateAndStoreDb, sendOtpMailSignUpController);
+authRouter.post('/signIn-with-google', verifyFirebaseIdToken, signInWithGoogle);
 authRouter.post('/login', verifyFirebaseIdToken, loginWithEmailPassword);
 authRouter.post('/logout', logoutUser)
 // test route to check JWT authentication

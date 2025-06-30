@@ -44,6 +44,8 @@ export const sendTestMail = async (req, res) => {
     }
 }
 
+// this is not currently used shift it to services/sendOtpMailService.js
+
 {/* send mail with OTP for signup */}
 export const sendOTPMail = async (req, res) => {
 
