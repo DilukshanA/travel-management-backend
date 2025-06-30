@@ -1,42 +1,8 @@
-{/* This file not used currently because this code copy to middleware that signupWithEmailPassword.js*/}
-
 import { User } from '../../models/user.js';
 import { generateJwtToken } from '../../utils/jwt.js';
 
-export const signupWithEmailPassword = async (req, res) => {
-    try {
-        const { uid, firstName, lastName, email, role } = req.body;
-
-        const checkUserExists = await User.findOne( { uid } );
-        if (!checkUserExists) {
-            const newUser = new User({
-                uid,
-                firstName,
-                lastName,
-                email,
-                role
-            })
-            await newUser.save();
-            return res.status(201).json({
-                message: "User registered successfully!",
-                role: newUser.role,
-            })
-        } else {
-            return res.status(400).json({
-                message: "User already exists",
-                role: checkUserExists.role,
-            })
-        }
-    } catch (error) {
-        console.error("Error creating user:", error);
-        return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
-        });
-    }
-}
-
 // sign in with email and password
+// this will give a cookie with JWT token if user exists in MongoDB
 export const loginWithEmailPassword = async (req, res) => {
 
     const { uid, email } = req.user;
@@ -76,6 +42,38 @@ export const loginWithEmailPassword = async (req, res) => {
             error: error.message
         });
     }
+}
 
+// this signupWithEmailPassword middleware not used currently
+export const signupWithEmailPassword = async (req, res) => {
+    try {
+        const { uid, firstName, lastName, email, role } = req.body;
 
+        const checkUserExists = await User.findOne( { uid } );
+        if (!checkUserExists) {
+            const newUser = new User({
+                uid,
+                firstName,
+                lastName,
+                email,
+                role
+            })
+            await newUser.save();
+            return res.status(201).json({
+                message: "User registered successfully!",
+                role: newUser.role,
+            })
+        } else {
+            return res.status(400).json({
+                message: "User already exists",
+                role: checkUserExists.role,
+            })
+        }
+    } catch (error) {
+        console.error("Error creating user:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
 }
