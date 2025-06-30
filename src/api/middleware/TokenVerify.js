@@ -1,6 +1,6 @@
 import admin from "../../config/firebase.js";
 
-const verifyToken = async (req, res, next) => {
+const verifyFirebaseIdToken = async (req, res, next) => {
 
     const authHeader = req.headers.authorization;
 
@@ -11,10 +11,10 @@ const verifyToken = async (req, res, next) => {
         });
     }
 
-    const token = authHeader.split('Bearer ')[1];
+    const idToken = authHeader.split('Bearer ')[1];
 
     try {
-        const decodedToken = await admin.auth().verifyIdToken(token);
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
         req.user = decodedToken;
         next();
     } catch (error) {
@@ -23,4 +23,4 @@ const verifyToken = async (req, res, next) => {
     }
 }
 
-export default verifyToken;
+export default verifyFirebaseIdToken;
