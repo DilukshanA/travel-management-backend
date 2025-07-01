@@ -5,7 +5,7 @@ import express from 'express';
 import otpGenerateAndStoreDb from '../middleware/otpMiddleware.js';
 import { userOtpVerifySignup } from '../controllers/otpController.js';
 import signupFirebaseAndMongoDb from '../middleware/signupFirebaseAndMongoDb.js';
-import authenticateJwt from '../middleware/auth/authenticateJwt.js';
+import authenticateJwt from '../middleware/authMiddleware.js';
 import { protectedTest } from '../controllers/test/protected.js';
 import checkUserAlreadyVerified from '../middleware/userVerfyMiddleware.js';
 import verifyFirebaseIdToken from '../middleware/TokenVerify.js';

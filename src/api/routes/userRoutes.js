@@ -1,6 +1,6 @@
 import express from 'express';
 import { getUserData, updateUserData } from '../controllers/userController.js';
-import authenticateJwt from '../middleware/auth/authenticateJwt.js';
+import authenticateJwt from '../middleware/authMiddleware.js';
 
 const userRouter = express.Router();
 
