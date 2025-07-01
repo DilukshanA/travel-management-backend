@@ -1,6 +1,6 @@
 import { User } from '../../models/user.js';
 
-export const signupWithEmailPassword = async (req, res, next) => {
+const signupWithEmailPassword = async (req, res, next) => {
     try {
         const { uid, firstName, lastName, email, role } = req.body;
 
