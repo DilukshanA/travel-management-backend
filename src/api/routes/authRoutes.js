@@ -4,12 +4,13 @@ import express from 'express';
 // import { signupWithEmailPassword } from '../middleware/signupWithEmailPassword.js';
 import otpGenerateAndStoreDb from '../middleware/otpMiddleware.js';
 import { userOtpVerifySignup } from '../controllers/otpController.js';
-import signupFirebaseAndMongoDb from '../middleware/signupFirebaseAndMongoDb.js';
-import authenticateJwt from '../middleware/authMiddleware.js';
+
+
 import { protectedTest } from '../controllers/test/protected.js';
 import checkUserAlreadyVerified from '../middleware/userVerfyMiddleware.js';
 import verifyFirebaseIdToken from '../middleware/TokenVerify.js';
 import { loginWithEmailPassword, logoutUser, sendOtpMailSignUpController, signInWithGoogle } from '../controllers/authController.js';
+import { authenticateJwt, signupFirebaseAndMongoDb } from '../middleware/authMiddleware.js';
 
 const authRouter = express.Router();
 
