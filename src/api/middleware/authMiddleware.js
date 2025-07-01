@@ -3,6 +3,7 @@ import admin from "../../config/firebase.js";
 import { User } from "../../models/user.js";
 import firebaseAuthErrorMap from "../../utils/firebaseAuthErrors.js";
 import { generateJwtToken } from "../../utils/jwt.js";
+import { setCookieOptions } from '../../config/CookieOptions.js';
 
 export const authenticateJwt = (req, res, next) => {
     const token = req.cookies.auth_token;
@@ -66,12 +67,7 @@ export const signupFirebaseAndMongoDb = async (req, res, next) => {
                 })
 
                 // set cookie with JWT token
-                res.cookie("auth_token", token, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
-                    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-                    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-                })
+                res.cookie("auth_token", token, setCookieOptions);
 
                 res.status(200).json({
                     message: "User registered successfully!",

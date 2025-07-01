@@ -1,3 +1,4 @@
+import { clearCookieOptions, setCookieOptions } from '../../config/CookieOptions.js';
 import { User } from '../../models/user.js';
 import { sendOtpMailService } from '../../services/sendOtpMailService.js';
 import { generateJwtToken } from '../../utils/jwt.js';
@@ -25,12 +26,7 @@ export const loginWithEmailPassword = async (req, res) => {
         })
 
         // set cookie with JWT token
-        res.cookie("auth_token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        })
+        res.cookie("auth_token", token, setCookieOptions);
 
         return res.status(200).json({
             message: "User logged in successfully!",
@@ -76,12 +72,7 @@ export const signInWithGoogle = async (req, res) => {
             })
 
             // set cookie with JWT token
-            res.cookie("auth_token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-                maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-            })
+            res.cookie("auth_token", token, setCookieOptions);
 
             return res.status(200).json({
                 message: "User registered successfully!",
@@ -98,12 +89,7 @@ export const signInWithGoogle = async (req, res) => {
             })
 
             // set cookie with JWT token
-            res.cookie("auth_token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-                maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-            })
+            res.cookie("auth_token", token, setCookieOptions);
             return res.status(201).json({
                 message: "User sign in successfully!",
                 role: user.role,
@@ -144,51 +130,13 @@ export const sendOtpMailSignUpController = async (req, res) => {
 export const logoutUser = async (req, res) => {
     try {
         // clear cookie
-        res.clearCookie("auth_token", {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-        })
+        res.clearCookie("auth_token", clearCookieOptions);
         return res.status(200).json({
             message: "User logged out successfully!",
             isLoggedOut: true
         })
     } catch (error) {
         console.error("Error logging out user:", error);
-        return res.status(500).json({
-            message: "Internal server error",
-            error: error.message
-        });
-    }
-}
-
-// this signupWithEmailPassword middleware not used currently
-export const signupWithEmailPassword = async (req, res) => {
-    try {
-        const { uid, firstName, lastName, email, role } = req.body;
-
-        const checkUserExists = await User.findOne( { uid } );
-        if (!checkUserExists) {
-            const newUser = new User({
-                uid,
-                firstName,
-                lastName,
-                email,
-                role
-            })
-            await newUser.save();
-            return res.status(201).json({
-                message: "User registered successfully!",
-                role: newUser.role,
-            })
-        } else {
-            return res.status(400).json({
-                message: "User already exists",
-                role: checkUserExists.role,
-            })
-        }
-    } catch (error) {
-        console.error("Error creating user:", error);
         return res.status(500).json({
             message: "Internal server error",
             error: error.message
