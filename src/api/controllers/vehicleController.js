@@ -28,6 +28,10 @@ export const addNewVehicle = async (req, res) => {
             vehicleName: newVehicle.name
         });
     } catch (error) {
-        
+        console.error("Error adding new vehicle:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
     }
 }
