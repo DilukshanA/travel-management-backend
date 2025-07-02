@@ -5,6 +5,7 @@ import sendMailRouter from './api/routes/sendMailRoutes.js';
 import cookieParser from 'cookie-parser';
 import userRouter from './api/routes/userRoutes.js';
 import ridesRouter from './api/routes/ridesRoutes.js';
+import vehicleRouter from './api/routes/vehicleRoutes.js';
 
 const app = express();
 
@@ -25,5 +26,6 @@ app.use('/api/auth', authRouter);
 app.use('/api/sendMail', sendMailRouter);
 app.use('/api', userRouter);
 app.use('/api', ridesRouter);
+app.use('/api', vehicleRouter);
 
 export default app;
