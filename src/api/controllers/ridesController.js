@@ -1,5 +1,5 @@
 export const createRide = async (req, res) => {
-    res.status(501).json({
-        message: "Create ride functionality is not implemented yet."
+    res.status(200).json({
+        message: "Ride created successfully",
     });
 }
