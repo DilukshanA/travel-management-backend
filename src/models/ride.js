@@ -1,68 +1,79 @@
 import mongoose from "mongoose";
 
+const locationSchema = new mongoose.Schema({
+  address: { type: String, required: true },
+  lat: { type: Number, required: true },
+  lng: { type: Number, required: true },
+});
+
 const rideSchema = new mongoose.Schema(
     {
-        driver: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        assistant: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true // Assistant is optional
-        },
-        passengers: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }],
-        vehicle: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Vehicle',
-            required: true
+        rideName: {
+            type: String,
+            required: true,
         },
         startLocation: {
             type: {
-            type: String,
-            enum: ["Point"],
-            default: "Point"
+                type: String,
+                enum: ["Point"],
+                default: "Point"
             },
             coordinates: {
-            type: [Number], // [longitude, latitude]
-            required: true
+                type: [Number], // [longitude, latitude]
+                required: true
             },
             address: {
-            type: String,
-            required: true
+                type: String,
+                required: true
             }
         },
         endLocation: {
-        type: {
-            type: String,
-            enum: ["Point"],
-            default: "Point"
+            type: {
+                type: String,
+                enum: ["Point"],
+                default: "Point"
+            },
+            coordinates: {
+                type: [Number], // [longitude, latitude]
+                required: true
+            },
+            address: {
+                type: String,
+                required: true
+            }
         },
-        coordinates: {
-            type: [Number],
-            required: true
+        distance: {
+            type: Number,
         },
-        address: {
-            type: String,
-            required: true
-        }
+        drivers: [{
+            // type: mongoose.Schema.Types.ObjectId,
+            // ref: 'User',
+            // required: true
+            type: String // temporary solution, should be ObjectId
+        }],
+        assistants: [{
+            // type: mongoose.Schema.Types.ObjectId,
+            // ref: 'User'
+            type: String // temporary solution, should be ObjectId
+        }],
+        passengers: [{
+            // type: mongoose.Schema.Types.ObjectId,
+            // ref: 'User'
+            type: String // temporary solution, should be ObjectId
+        }],
+        vehicle: {
+            // type: mongoose.Schema.Types.ObjectId,
+            // ref: 'Vehicle',
+            // required: true
+            type: String // temporary solution, should be ObjectId
         },
-        startTime: {
+        startDateTime: {
             type: Date,
             required: true
         },
-        endTime: {
+        endDateTime: {
             type: Date,
             required: true
-        },
-        status: {
-            type: String,
-            enum: ['Scheduled', 'In Progress', 'Completed', 'Cancelled'],
-            default: 'Scheduled'
         },
         totalSeats: {
             type: Number,
@@ -71,8 +82,12 @@ const rideSchema = new mongoose.Schema(
         },
         availableSeats: {
             type: Number,
-            required: true,
             min: 0 // Cannot be negative
+        },
+        status: {
+            type: String,
+            enum: ['Scheduled', 'In Progress', 'Completed', 'Cancelled'],
+            default: 'Scheduled'
         },
     },
     {
