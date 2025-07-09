@@ -2,10 +2,10 @@ import { Vehicle } from "../../models/vehicle.js";
 
 
 export const addNewVehicle = async (req, res) => {
-    const { name, type, vehicleNumber, owner, ownerPhone, photo, status, totalSeats } = req.body;
+    const { name, type, vehicleNumber, ownerName, ownerPhone, photo, status, totalSeats } = req.body;
 
     try {
-        if ( !name || !type || !vehicleNumber || !owner  || !ownerPhone || !totalSeats ) {
+        if ( !name || !type || !vehicleNumber || !ownerName  || !ownerPhone || !totalSeats ) {
             return res.status(400).json({
                 message: "All fields are required"
             });
@@ -16,7 +16,7 @@ export const addNewVehicle = async (req, res) => {
             name,
             type,
             vehicleNumber,
-            owner,
+            ownerName,
             ownerPhone,
             photo, // Optional field
             status,
