@@ -11,7 +11,7 @@ const vehicleSchema = new mongoose.Schema(
             enum: ['Car', 'Bus', 'Truck', 'Van'],
             required: true
         },
-        licensePlate: {
+        vehicleNumber: {
             type: String,
             required: true,
             unique: true
@@ -20,9 +20,18 @@ const vehicleSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        ownerPhone: {
+            type: String,
+            required: true
+        },
         photo: {
             type: String,
             required: false // Optional field for vehicle photo
+        },
+        status: {
+            type: String,
+            enum: ['Available', 'Maintenance', 'Unavailable'],
+            default: 'Available'
         },
         totalSeats: {
             type: Number,
