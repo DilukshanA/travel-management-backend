@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const vehicleSchema = new mongoose.Schema(
     {
-        name: {
+        vehicleName: {
             type: String,
             required: true
         },
-        type: {
+        vehicleType: {
             type: String,
             enum: ['Car', 'Bus', 'Truck', 'Van'],
             required: true
