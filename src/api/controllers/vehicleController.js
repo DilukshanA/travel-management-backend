@@ -2,12 +2,20 @@ import { Vehicle } from "../../models/vehicle.js";
 
 
 export const addNewVehicle = async (req, res) => {
-    const { vehicleName, vehicleType, vehicleNumber, ownerName, ownerPhone, photo, status, totalSeats } = req.body;
+    const { vehicleName, vehicleType, vehicleNumber, ownerName, ownerPhone, vehiclePhoto, status, totalSeats } = req.body;
 
     try {
         if ( !vehicleName || !vehicleType || !vehicleNumber || !ownerName  || !ownerPhone || !totalSeats ) {
             return res.status(400).json({
                 message: "All fields are required"
+            });
+        }
+
+        // find if vehicle with the same number already exists
+        const existingVehicle = await Vehicle.findOne({ vehicleNumber });
+        if (existingVehicle) {
+            return res.status(400).json({
+                message: `Vehicle with number ${vehicleNumber} already exists!`
             });
         }
 
@@ -18,7 +26,7 @@ export const addNewVehicle = async (req, res) => {
             vehicleNumber,
             ownerName,
             ownerPhone,
-            photo, // Optional field
+            vehiclePhoto, // Optional field
             status,
             totalSeats
         })
