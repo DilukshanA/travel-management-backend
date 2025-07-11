@@ -67,3 +67,28 @@ export const getAllVehicles = async (req, res) => {
         });
     }
 }
+
+// get vehicle by id
+export const getVehicleById = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const vehicle = await Vehicle.findById(id);
+        if (!vehicle) {
+            return res.status(404).json({
+                message: "Vehicle not found"
+            });
+        }
+        return res.status(200).json({
+            message: "Vehicle retrieved successfully",
+            vehicle
+        })
+    } catch (error) {
+        console.error("Error retrieving vehicle:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+
+}
