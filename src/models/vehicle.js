@@ -24,7 +24,7 @@ const vehicleSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        photo: {
+        vehiclePhoto: {
             type: String,
             required: false // Optional field for vehicle photo
         },
