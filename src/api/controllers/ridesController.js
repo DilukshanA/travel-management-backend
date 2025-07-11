@@ -86,7 +86,6 @@ export const getRideById = async (req, res) => {
     try {
         
         const { id } = req.params;
-        console.log("Ride ID:", id);
 
         const ride = await Ride.findById(id)
             .populate('drivers', 'firstName lastName email') // Adjust fields as needed for drivers
