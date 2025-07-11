@@ -45,3 +45,25 @@ export const addNewVehicle = async (req, res) => {
         });
     }
 }
+
+// get all vehicles
+export const getAllVehicles = async (req, res) => {
+    try {
+        const vehicles = await Vehicle.find();
+        if (vehicles.length === 0) {
+            return res.status(404).json({
+                message: "No vehicles found"
+            })
+        }
+        return res.status(200).json({
+            message: "Vehicles retrieved successfully",
+            vehicles
+        })
+    } catch (error) {
+        console.error("Error retrieving vehicles:", error);
+        return res.status(500).json({
+            message: "Internal server error",
+            error: error.message
+        });
+    }
+}
