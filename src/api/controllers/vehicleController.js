@@ -14,7 +14,7 @@ export const addNewVehicle = async (req, res) => {
         // find if vehicle with the same number already exists
         const existingVehicle = await Vehicle.findOne({ vehicleNumber });
         if (existingVehicle) {
-            return res.status(400).json({
+            return res.status(409).json({
                 message: `Vehicle with number ${vehicleNumber} already exists!`
             });
         }
